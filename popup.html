@@ -6,7 +6,7 @@
     body {
       width: 400px;
       padding: 16px;
-      font-family: Arial, sans-serif;
+      font-family: Poppins, Arial, sans-serif;
     }
 
     .container {
@@ -27,6 +27,7 @@
       justify-content: center;
       gap: 8px;
       margin-bottom: 16px;
+      font-weight: bold; /* Make "Take Screenshot" bold */
     }
 
     .screenshot-btn:hover {
@@ -127,50 +128,50 @@
       padding: 8px;
       border-radius: 4px;
     }
-    /* Add these styles to your existing CSS */
-.notification {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  border-radius: 4px;
-  color: white;
-  z-index: 1000;
-  animation: fadeInOut 3s forwards;
-}
 
-.notification.success {
-  background-color: #22c55e;
-}
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: 4px;
+      color: white;
+      z-index: 1000;
+      animation: fadeInOut 3s forwards;
+    }
 
-.notification.error {
-  background-color: #ef4444;
-}
+    .notification.success {
+      background-color: #22c55e;
+    }
 
-.folder-radio {
-  margin: 0;
-  cursor: pointer;
-}
+    .notification.error {
+      background-color: #ef4444;
+    }
 
-.edit-mode {
-  width: 100%;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+    .folder-radio {
+      margin: 0;
+      cursor: pointer;
+    }
 
-.edit-mode .input-field {
-  margin-bottom: 0;
-  flex: 1;
-}
+    .edit-mode {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
 
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translate(-50%, 20px); }
-  10% { opacity: 1; transform: translate(-50%, 0); }
-  90% { opacity: 1; transform: translate(-50%, 0); }
-  100% { opacity: 0; transform: translate(-50%, -20px); }
-}
+    .edit-mode .input-field {
+      margin-bottom: 0;
+      flex: 1;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, 20px); }
+      10% { opacity: 1; transform: translate(-50%, 0); }
+      90% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -20px); }
+    }
   </style>
 </head>
 <body>
