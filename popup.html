@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Screenshot Manager</title>
+  <style>
+    body {
+      width: 400px;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .screenshot-btn {
+      width: 100%;
+      padding: 10px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .screenshot-btn:hover {
+      background: #2563eb;
+    }
+
+    .current-folder {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .folder-list {
+      margin-top: 16px;
+    }
+
+    .folder-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f3f4f6;
+      padding: 8px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .folder-info {
+      flex: 1;
+    }
+
+    .folder-name {
+      font-weight: 500;
+    }
+
+    .folder-path {
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .btn {
+      padding: 4px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .btn:hover {
+      background: #e5e7eb;
+    }
+
+    .delete-btn {
+      color: #ef4444;
+    }
+
+    .new-folder-form {
+      margin-top: 16px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+    }
+
+    .add-folder-btn {
+      width: 100%;
+      padding: 8px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .add-folder-btn:hover {
+      background: #2563eb;
+    }
+
+    .edit-form {
+      padding: 8px;
+    }
+
+    .save-btn {
+      background: #22c55e;
+      color: white;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .edit-mode {
+      background: white;
+      padding: 8px;
+      border-radius: 4px;
+    }
+    /* Add these styles to your existing CSS */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  z-index: 1000;
+  animation: fadeInOut 3s forwards;
+}
+
+.notification.success {
+  background-color: #22c55e;
+}
+
+.notification.error {
+  background-color: #ef4444;
+}
+
+.folder-radio {
+  margin: 0;
+  cursor: pointer;
+}
+
+.edit-mode {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit-mode .input-field {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="screenshotBtn" class="screenshot-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+      Take Screenshot
+    </button>
+
+    <div class="current-folder">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span style="font-weight: 500;">Current Folder:</span>
+      </div>
+      <div id="currentFolderPath" style="margin-top: 4px;"></div>
+    </div>
+
+    <div class="folder-list">
+      <div style="font-weight: 500; margin-bottom: 8px;">Manage Folders</div>
+      <div id="foldersList"></div>
+
+      <div class="new-folder-form">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span style="font-weight: 500;">Add New Folder</span>
+        </div>
+        <input type="text" id="newFolderName" class="input-field" placeholder="Folder name">
+        <input type="text" id="newFolderPath" class="input-field" placeholder="Folder path">
+        <button id="addFolderBtn" class="add-folder-btn">Add Folder</button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
